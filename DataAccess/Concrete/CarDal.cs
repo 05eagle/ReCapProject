@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using System.Linq.Expressions;
+using DataAccess.Concrete.EntityFramework;
 
 namespace DataAccess.Concrete
 {
@@ -37,10 +39,17 @@ namespace DataAccess.Concrete
             return cars;
         }
 
+        public List<Car> GetAll(Expression<Func<Car, bool>> filter = null)
+        {
+            throw new NotImplementedException();
+        }
+
         public List<Car> GetById(int Id)
         {
             return cars.Where(c => c.Id == Id).ToList();
         }
+
+      
 
         public void Update(Car car)
         {
