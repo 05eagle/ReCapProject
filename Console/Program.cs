@@ -10,13 +10,13 @@ namespace Console
         static void Main(string[] args)
         {
             CarManager carManager = new CarManager(new EfCarDal());
-            
 
-            //carManager.Add(new Entities.Concrete.Car { Id = 5, BrandId = 1, ColorId = 1, DailyPrice =2 , Description = "Deneme" });
 
-            foreach (var car in carManager.GetCarsByBrandId(1))
+            //carManager.Add(new Entities.Concrete.Car { Id = 8, BrandId = 1,ModelYear=2000, ColorId = 1, DailyPrice = 2, Description = "Deneme" });
+
+            foreach (var car in carManager.GetAll())
             {
-                System.Console.WriteLine("İd:"+car.Id + car.ModelYear+ "\tGünlük Fiyatı:" + car.DailyPrice+ "\tAraba İsmi:" + car.Description);
+                System.Console.WriteLine("İd:"+car.Id + "\t" + "Model"+ car.ModelYear+ "\tGünlük Fiyatı:" + car.DailyPrice+ "\tAraba Açıklaması:" + car.Description);
             }
             foreach (var car in carManager.GetCarsByBrandId(1))
             {
