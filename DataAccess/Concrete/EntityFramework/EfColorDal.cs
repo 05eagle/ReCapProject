@@ -39,16 +39,7 @@ namespace DataAccess.Concrete.EntityFramework
             }
         }
 
-        public List<Color> GetCarsByBrandId(int brandId)
-        {
-            throw new NotImplementedException();
-        }
-
-        public List<Color> GetCarsByColorId(int colorId)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public void Update(Color entity)
         {
             using (CarContext context = new CarContext())
