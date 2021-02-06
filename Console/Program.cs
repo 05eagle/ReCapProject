@@ -4,7 +4,7 @@ using DataAccess.Concrete.EntityFramework;
 using Entities.Concrete;
 using System;
 
-namespace Console
+namespace ConsoleUI
 {
     class Program
     {
@@ -19,15 +19,15 @@ namespace Console
 
             foreach (var car in carManager.GetAll())
             {
-                System.Console.WriteLine("İd:"+car.Id + "\t" + "Model"+ car.ModelYear+ "\tGünlük Fiyatı:" + car.DailyPrice+ "\tAraba Açıklaması:" + car.Description);
+                Console.WriteLine("İd:"+car.Id + "\t" + "Model"+ car.ModelYear+ "\tGünlük Fiyatı:" + car.DailyPrice+ "\tAraba Açıklaması:" + car.Description);
             }
             foreach (var car in carManager.GetCarsByBrandId(1))
             {
-                System.Console.WriteLine(car.Description);
+                Console.WriteLine(car.Description);
             }
             foreach (var car in carManager.GetCarsByColorId(1))
             {
-                System.Console.WriteLine(car.Description);
+                Console.WriteLine(car.Description);
             }
             
         }
