@@ -15,7 +15,7 @@ namespace Console
 
             //carManager.Add(new Entities.Concrete.Car { Id = 8, BrandId = 1,ModelYear=2000, ColorId = 1, DailyPrice = 2, Description = "Deneme" });
 
-            carManager.Delete(new Car { Id = 8, BrandId = 2, ModelYear = 2001, ColorId = 1, DailyPrice = 2, Description = "deneme2" });
+            //carManager.Add(new Car { Id = 9, BrandId = 2, ModelYear = 2001, ColorId = 1, DailyPrice = 2, Description = "deneme2" });
 
             foreach (var car in carManager.GetAll())
             {
