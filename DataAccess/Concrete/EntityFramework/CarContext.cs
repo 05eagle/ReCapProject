@@ -17,5 +17,13 @@ namespace DataAccess.Concrete.EntityFramework
         public DbSet<Brand> Brands { get; set; }
 
         public DbSet<Color> Colors { get; set; }
+
+        //veritabanındaki sütun isimleriyle farklılık olduğunda yapılacak işlemler
+        //fluet mapping
+    //    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    //    {
+    //        modelBuilder.Entity<SınıfIsmi>().ToTable(VeritabanındakiSütünİsmi);//sınıf ismimizle veritabanındaki hangi sütünü bağlayacağımızı belirtiyoruz.
+    //        modelBuilder.Entity<SınıfınIsmi>().Property(p=>p.Sütunİsmi).HasColumnName(VerirtabanındakiSütünİsmi)
+    //    }
     }
 }

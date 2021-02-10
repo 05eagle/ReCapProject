@@ -6,6 +6,7 @@ using System.Text;
 using System.Linq;
 using System.Linq.Expressions;
 using DataAccess.Concrete.EntityFramework;
+using Entities.DTOs;
 
 namespace DataAccess.Concrete
 {
@@ -27,11 +28,21 @@ namespace DataAccess.Concrete
             cars.Add(car);
         }
 
+        public List<CarDetailDto> CarDetails()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Delete(Car car)
         {
             Car carDelete;
             carDelete = cars.SingleOrDefault(c => c.Id == car.Id);
             cars.Remove(carDelete);
+        }
+
+        public Car Get(Expression<Func<Car, bool>> filter)
+        {
+            throw new NotImplementedException();
         }
 
         public List<Car> GetAll()

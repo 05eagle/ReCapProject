@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Text;
 using DataAccess.Abstract;
 using System.Linq;
+using Entities.DTOs;
 
 namespace Business.Concrete
 {
@@ -34,20 +35,24 @@ namespace Business.Concrete
             _carDal.Delete(car);
         }
 
+       
+
         public List<Car> GetAll()
         {
             return _carDal.GetAll();
         }
 
-        public List<Car> GetCarsByBrandId(int id)
+        public List<CarDetailDto> GetCarDetails()
         {
-            return _carDal.GetAll().Where(c => c.BrandId == id).ToList();
+            return _carDal.CarDetails();
         }
 
-        public List<Car> GetCarsByColorId(int id)
+        public Car GetCarId(int id)
         {
-            return _carDal.GetAll().Where(c => c.ColorId == id).ToList();
+            return _carDal.Get(c => c.Id == id);
         }
+
+       
 
         public void Update(Car car)
         {
