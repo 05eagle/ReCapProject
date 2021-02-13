@@ -18,12 +18,19 @@ namespace DataAccess.Concrete.EntityFramework
 
         public DbSet<Color> Colors { get; set; }
 
+        public DbSet<Rental> Rentals { get; set; }
+        
+        public DbSet<User> Users { get; set; }
+
+        public DbSet<Customer> Customers { get; set; }
+
+
         //veritabanındaki sütun isimleriyle farklılık olduğunda yapılacak işlemler
         //fluet mapping
-    //    protected override void OnModelCreating(ModelBuilder modelBuilder)
-    //    {
-    //        modelBuilder.Entity<SınıfIsmi>().ToTable(VeritabanındakiSütünİsmi);//sınıf ismimizle veritabanındaki hangi sütünü bağlayacağımızı belirtiyoruz.
-    //        modelBuilder.Entity<SınıfınIsmi>().Property(p=>p.Sütunİsmi).HasColumnName(VerirtabanındakiSütünİsmi)
-    //    }
+        //    protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //    {
+        //        modelBuilder.Entity<SınıfIsmi>().ToTable(VeritabanındakiSütünİsmi);//sınıf ismimizle veritabanındaki hangi sütünü bağlayacağımızı belirtiyoruz.
+        //        modelBuilder.Entity<SınıfınIsmi>().Property(p=>p.Sütunİsmi).HasColumnName(VerirtabanındakiSütünİsmi)
+        //    }
     }
 }
