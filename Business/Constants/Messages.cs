@@ -14,11 +14,10 @@ namespace Business.Constants
 
         public static string Updated = "Güncellendi.";
         public static string CarImageLimitExceeded="Resim Limiti Aşıldı.";
-        public static string CarCheckImageLimited;
-        public static string CarImageDeleted;
-        public static string CarImageAdded="Eklendi";
-        public static string Yes="evet";
-        internal static string ImageLimitExceeded;
-        internal static string CarImageUpdated;
+        public static string CarCheckImageLimited="Resim limiti aşıldı.";
+        public static string CarImageDeleted="Araba Resim silindi";
+        public static string CarImageAdded="Araba Resim Eklendi";
+        public static string ImageLimitExceeded="Resim Limiti aşıldı";
+        public static string CarImageUpdated = "Car resmi güncellendi.";
     }
 }
