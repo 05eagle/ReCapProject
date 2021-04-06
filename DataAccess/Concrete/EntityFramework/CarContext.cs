@@ -24,6 +24,10 @@ namespace DataAccess.Concrete.EntityFramework
 
         public DbSet<Customer> Customers { get; set; }
 
+        public DbSet<CarImage> CarImages { get; set; }
+
+
+
 
         //veritabanındaki sütun isimleriyle farklılık olduğunda yapılacak işlemler
         //fluet mapping

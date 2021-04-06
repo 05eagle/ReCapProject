@@ -17,23 +17,21 @@ namespace ConsoleUI
             RentalManager rentalManager = new RentalManager(new EfRentalDal());
             CustomerManager customerManager = new CustomerManager(new EfCustomerDal());
 
-            //brandManager.Add(new Brand { BrandId = 2, BrandName = "Opel" });
-            //colorManager.Add(new Color { ColorId = 2, ColorName = "Mavi" });
-            //carManager.Add(new Entities.Concrete.Car { Id = 8, BrandId = 1,ModelYear=2000, ColorId = 1, DailyPrice = 2, Description = "Deneme" });
-            //carManager.Add(new Entities.Concrete.Car { Id = 8, BrandId = 1,ModelYear=2000, ColorId = 1, DailyPrice = 2, Description = "Deneme" });
+            
 
-            //carManager.Add(new Car { Id = 12, BrandId = 2, ModelYear = 2001, ColorId = 1, DailyPrice = 2, Description = "deneme2" });
+            var result = carManager.GetCarDetails();
 
+            Console.WriteLine(result.Data);
 
             //CustomerAdd(customerManager);
 
-            RentAdd(rentalManager);
+            //RentAdd(rentalManager);
 
-            foreach (var rental in rentalManager.GetAll().Data)
-            {
-                Console.WriteLine("{0} Numaralı Aracın Tarih Bilgileri..", rental.CarId);
-                Console.WriteLine("Kiralama tarihi:" + rental.RentDate + "\t" + "Teslim Tarihi:" + rental.ReturnDate);
-            }
+            //foreach (var rental in rentalManager.GetAll().Data)
+            //{
+            //    Console.WriteLine("{0} Numaralı Aracın Tarih Bilgileri..", rental.CarId);
+            //    Console.WriteLine("Kiralama tarihi:" + rental.RentDate + "\t" + "Teslim Tarihi:" + rental.ReturnDate);
+            //}
 
             //foreach (var car in carManager.GetCarDetails().Data)
             //{

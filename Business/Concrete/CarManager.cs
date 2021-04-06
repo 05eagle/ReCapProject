@@ -8,6 +8,10 @@ using System.Linq;
 using Entities.DTOs;
 using Core.Utilities.Results;
 using Business.Constants;
+using FluentValidation;
+using Business.ValidationRules.FluentValidation;
+using Core.CrossCuttingConcerns.Validation;
+using Core.Aspects.Autofac.Validation;
 
 namespace Business.Concrete
 {
@@ -20,18 +24,14 @@ namespace Business.Concrete
 
         }
 
+        [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
-            if (car.Description.Length>2 && car.DailyPrice>0)
-            {
-                _carDal.Add(car);
-                
 
-            }
-            else
-            {
-                Console.WriteLine("Araba'nın isminin boş olmadığından ve günlük fiyatın 0'dan büyük olduğundan emin olunuz.");
-            }
+            _carDal.Add(car);
+
+
+
             return new SuccessResult(Messages.Added);
 
         }
@@ -42,11 +42,11 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Deleted);
         }
 
-       
+
 
         public IDataResult<List<Car>> GetAll()
         {
-            return new SuccessDataResult<List<Car>>(_carDal.GetAll(),Messages.Listed);
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Listed);
         }
 
         public IDataResult<List<CarDetailDto>> GetCarDetails()
@@ -59,7 +59,7 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
         }
 
-       
+
 
         public IResult Update(Car car)
         {
