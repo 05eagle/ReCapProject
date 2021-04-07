@@ -13,6 +13,10 @@ using Business.ValidationRules.FluentValidation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Aspects.Autofac.Validation;
 using Business.BusinessAspects.Autofac;
+using Core.Aspects.Autofac.Cashing;
+using Core.Aspects.Autofac.Transaction;
+using Core.Aspects.Autofac.Performance;
+using System.Threading;
 
 namespace Business.Concrete
 {
@@ -26,15 +30,27 @@ namespace Business.Concrete
         }
         [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
+            if (!CheckCarColorLimit(car.ColorId).Success)
+            {
+                return new ErrorResult("Başarısız");
+            }
+
 
             _carDal.Add(car);
 
-
-
             return new SuccessResult(Messages.Added);
 
+        }
+
+        [TransactionScopeAspect]
+        public IResult AddTransactionalTest(Car car)
+        {
+            _carDal.Update(car);
+            _carDal.Add(car);
+            return new SuccessResult(Messages.Updated);
         }
 
         public IResult Delete(Car car)
@@ -44,9 +60,11 @@ namespace Business.Concrete
         }
 
 
-
+        [CacheAspect]
+        [PerformanceAspect(5)]
         public IDataResult<List<Car>> GetAll()
         {
+            Thread.Sleep(5000);
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Listed);
         }
 
@@ -60,13 +78,24 @@ namespace Business.Concrete
             return new SuccessDataResult<Car>(_carDal.Get(c=>c.Id==id),Messages.Listed);
         }
 
-
-
+        [ValidationAspect(typeof(CarValidator))]
+        [CacheRemoveAspect("ICarService.Get")]
         public IResult Update(Car car)
         {
             _carDal.Update(car);
 
             return new SuccessResult(Messages.Updated);
+        }
+
+        private  IResult CheckCarColorLimit(int colorId)
+        {
+            var result = _carDal.GetAll(c => c.ColorId == colorId).Count;
+
+            if (result>10)
+            {
+                return new ErrorResult("Limit aşıldı eklenemez.");
+            }
+            return new SuccessResult("Araba eklendi.");
         }
     }
 }
