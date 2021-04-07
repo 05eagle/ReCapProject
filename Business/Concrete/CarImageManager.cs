@@ -50,14 +50,14 @@ namespace Business.Concrete
             return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll());
         }
 
-        public IDataResult<CarImage> GetById(int carId)
+        public IDataResult<CarImage>GetById(int carId)
         {
             IResult result = BusinessRules.Run(CheckIfCarImageImageCountNull(carId));
             if (result != null)
             {
                 return new ErrorDataResult<CarImage>(result.Message);
             }
-            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.Id == carId));
+            return new SuccessDataResult<CarImage>(_carImageDal.Get(c => c.CarId==carId)+"Listelendi");
 
         }
         public IResult Update(IFormFile file, CarImage carImage)
@@ -86,7 +86,7 @@ namespace Business.Concrete
         {
             try
             {
-                string path = Environment.CurrentDirectory + @"\Images\DefaultImage.png";
+                string path = Environment.CurrentDirectory + @"\defaultImage.jpg";
                 var result = _carImageDal.GetAll(c => c.CarId == carId).Any();
 
                 if (!result)
@@ -100,7 +100,7 @@ namespace Business.Concrete
             {
                 return new ErrorDataResult<List<CarImage>>(exception.Message);
             }
-            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(c => c.Id == carId).ToList());
+            return new SuccessDataResult<List<CarImage>>(_carImageDal.GetAll(c => c.CarId == carId).ToList());
         }
     }
 }

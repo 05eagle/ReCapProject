@@ -12,6 +12,7 @@ using FluentValidation;
 using Business.ValidationRules.FluentValidation;
 using Core.CrossCuttingConcerns.Validation;
 using Core.Aspects.Autofac.Validation;
+using Business.BusinessAspects.Autofac;
 
 namespace Business.Concrete
 {
@@ -23,7 +24,7 @@ namespace Business.Concrete
             _carDal = carDal;
 
         }
-
+        [SecuredOperation("car.add,admin")]
         [ValidationAspect(typeof(CarValidator))]
         public IResult Add(Car car)
         {
@@ -56,7 +57,7 @@ namespace Business.Concrete
 
         public IDataResult<Car> GetCarId(int id)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id));
+            return new SuccessDataResult<Car>(_carDal.Get(c=>c.Id==id),Messages.Listed);
         }
 
 

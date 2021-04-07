@@ -70,6 +70,7 @@ namespace WebAPI.Controllers
         public IActionResult GetById(int id)
         {
             var result = _carImageService.GetById(id);
+            
             if (result.Success)
             {
                 return Ok(result);
