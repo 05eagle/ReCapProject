@@ -17,12 +17,14 @@ using Core.Aspects.Autofac.Cashing;
 using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Performance;
 using System.Threading;
+using Core.Utilities.Business;
 
 namespace Business.Concrete
 {
     public class CarManager : ICarService
     {
         ICarDal _carDal;
+        IBrandService _brandService;
         public CarManager(ICarDal carDal)
         {
             _carDal = carDal;
@@ -33,17 +35,22 @@ namespace Business.Concrete
         [CacheRemoveAspect("ICarService.Get")]
         public IResult Add(Car car)
         {
-            if (!CheckCarColorLimit(car.ColorId).Success)
+            IResult result = BusinessRules.Run(CheckIfCarNameExists(car.CarName),
+                  CheckIfCarCountBrandCorrect(car.BrandId), CheckIfBrandLimitExceded());
+
+            if (result != null)
             {
-                return new ErrorResult("Başarısız");
+                return result;
             }
 
-
             _carDal.Add(car);
-
             return new SuccessResult(Messages.Added);
+            
 
         }
+
+
+
 
         [TransactionScopeAspect]
         public IResult AddTransactionalTest(Car car)
@@ -68,15 +75,31 @@ namespace Business.Concrete
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Listed);
         }
 
+        public IDataResult<List<Car>> GetByDailyPrice(decimal min, decimal max)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.DailyPrice >= min && c.DailyPrice <= max));
+        }
+
         public IDataResult<List<CarDetailDto>> GetCarDetails()
         {
             return new SuccessDataResult<List<CarDetailDto>>(_carDal.CarDetails(), Messages.Listed);
         }
 
+        [CacheAspect]
         public IDataResult<Car> GetCarId(int id)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c=>c.Id==id),Messages.Listed);
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id),Messages.Listed);
         }
+        public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.BrandId == brandId));
+        }
+
+        public IDataResult<List<Car>> GetCarsByColorId(int colorId)
+        {
+            return new SuccessDataResult<List<Car>>(_carDal.GetAll(c => c.ColorId == colorId));
+        }
+
 
         [ValidationAspect(typeof(CarValidator))]
         [CacheRemoveAspect("ICarService.Get")]
@@ -87,15 +110,37 @@ namespace Business.Concrete
             return new SuccessResult(Messages.Updated);
         }
 
-        private  IResult CheckCarColorLimit(int colorId)
+        private IResult CheckIfCarCountBrandCorrect(int brandId)
         {
-            var result = _carDal.GetAll(c => c.ColorId == colorId).Count;
-
-            if (result>10)
+            var result = _carDal.GetAll(c => c.BrandId == brandId).Count;
+            if (result >= 15)
             {
-                return new ErrorResult("Limit aşıldı eklenemez.");
+                return new ErrorResult(Messages.CarCountOfBrandError);
             }
-            return new SuccessResult("Araba eklendi.");
+
+            return new SuccessResult();
         }
+        private IResult CheckIfCarNameExists(string carName)
+        {
+            var result = _carDal.GetAll(c => c.CarName == carName).Any();
+            if (result)
+            {
+                return new ErrorResult(Messages.CarNameAlreadyExists);
+            }
+
+            return new SuccessResult();
+        }
+
+        private IResult CheckIfBrandLimitExceded()
+        {
+            var result = _brandService.GetAll().Data.Count;
+            if (result > 15)
+            {
+                return new ErrorResult(Messages.BrandLimitExceded);
+            }
+
+            return new SuccessResult();
+        }
+
     }
 }

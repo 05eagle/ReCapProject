@@ -21,5 +21,8 @@ namespace Business.Constants
         public static string ImageLimitExceeded="Resim Limiti aşıldı";
         public static string CarImageUpdated = "Car resmi güncellendi.";
         public static string AuthorizationDenied ="Yetkin bulunmadı.";
+        public static string CarCountOfBrandError="Marka Hatası.";
+        public static string CarNameAlreadyExists="Araba ismi zaten var";
+        public static string BrandLimitExceded="Marka limiti aşıldı";
     }
 }
