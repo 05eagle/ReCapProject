@@ -71,7 +71,7 @@ namespace Business.Concrete
         [PerformanceAspect(5)]
         public IDataResult<List<Car>> GetAll()
         {
-            Thread.Sleep(5000);
+            
             return new SuccessDataResult<List<Car>>(_carDal.GetAll(), Messages.Listed);
         }
 
@@ -88,7 +88,7 @@ namespace Business.Concrete
         [CacheAspect]
         public IDataResult<Car> GetCarId(int id)
         {
-            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id),Messages.Listed);
+            return new SuccessDataResult<Car>(_carDal.Get(c => c.Id == id), Messages.Listed);
         }
         public IDataResult<List<Car>> GetCarsByBrandId(int brandId)
         {
